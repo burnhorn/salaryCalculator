@@ -19,8 +19,17 @@ def calculate_insurance(salary, birth_date):
     truncated_salary = (int(salary) // 1000) * 1000  # 천원 단위로 절사
     truncated_salary_dec = Decimal(truncated_salary)  # 절사된 급여를 Decimal로 변환
 
+    # 국민연금 기준소득월액 상한액과 하한액 설정
+    upper_limit = Decimal('6170000')  # 617만원
+    lower_limit = Decimal('390000')  # 39만원
+
+    # 국민연금 기준소득월액 상한액과 하한액 적용
+    if truncated_salary_dec > upper_limit:
+        truncated_salary_dec = upper_limit
+    elif truncated_salary_dec < lower_limit:
+        truncated_salary_dec = lower_limit
+
     # 각 보험료 계산
-    
     # 나이가 65세 이상이면 국민연금을 0으로 설정
     if age >= 65:
         national_pension = Decimal('0')
