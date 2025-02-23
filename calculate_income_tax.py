@@ -3,10 +3,10 @@ from decimal import Decimal, ROUND_FLOOR
 
 def preprocess_file(tax_file_path, hr_file_path):
     # 간이세액표 파일 읽기
+    # 기본 인사정보 엑셀 파일 읽기 (header=5로 읽고, 인덱스 10번 행 삭제)
     df = pd.read_excel(tax_file_path, sheet_name='Sheet1', header=5)
     df = df.drop(10)
 
-    # 기본 인사정보 엑셀 파일 읽기 (header=5로 읽고, 인덱스 10번 행 삭제)
     df2 = pd.read_excel(hr_file_path)
     df2.head(10)
 
