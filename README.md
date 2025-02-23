@@ -1,5 +1,5 @@
 # 1. 4대보험 및 근로소득 모의 계산기
-![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/assets/input_data)
+![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/asssets/input_data.jpeg)
 
     - salary_processor.exe을 실행 후 4대보험 및 근로소득을 계산하고 싶은 데이터를 선택
         - 입력 칼럼(6개): 사번, 이름, 주민등록번호, 공제대상 가족 수, 8세 이상 20세 이하 자녀 수, 급여
@@ -31,9 +31,13 @@
 
 # 3. 입력과 출력 데이터
 
-![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/assets/input_columns)
-![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/assets/output1)
-![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/assets/output2)
+**입력 데이터**
+
+![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/asssets/input_columns.JPG)
+
+**출력 데이터**
+
+![Reference Image](https://github.com/burnhorn/salaryCalculator/raw/main/asssets/output2.JPG)
 
 `2025년 4대보험요율 및 근로소득 간이세액표 적용`
 
