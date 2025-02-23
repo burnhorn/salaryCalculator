@@ -7,18 +7,26 @@ from tkinter import filedialog  # 파일 다이얼로그를 위한 모듈
 import time  # 시간 지연을 위한 라이브러리
 
 from calculate_income_tax import pipeline
+from calculate_age import calculate_age
 
 # 급여를 입력받아 각종 보험료를 계산하는 함수
-def calculate_insurance(salary):
+def calculate_insurance(salary, birth_date):
     """
     급여를 입력받아 각종 보험료를 계산하여 반환합니다.
     """
+    age = calculate_age(birth_date) # 현재 만 나이 계산 함수 호출
     salary_dec = Decimal(str(salary))  # 급여를 Decimal로 변환하여 정확한 계산 수행
     truncated_salary = (int(salary) // 1000) * 1000  # 천원 단위로 절사
     truncated_salary_dec = Decimal(truncated_salary)  # 절사된 급여를 Decimal로 변환
 
     # 각 보험료 계산
-    national_pension = (truncated_salary_dec * Decimal('0.045')).quantize(Decimal('1E1'), rounding=ROUND_FLOOR)
+    
+    # 나이가 65세 이상이면 국민연금을 0으로 설정
+    if age >= 65:
+        national_pension = Decimal('0')
+    else:
+        national_pension = (truncated_salary_dec * Decimal('0.045')).quantize(Decimal('1E1'), rounding=ROUND_FLOOR)
+
     health_insurance = (salary_dec * Decimal('0.0709') * Decimal('0.5')).quantize(Decimal('1E1'), rounding=ROUND_FLOOR)
     long_term_care_insurance = (health_insurance * (Decimal('0.009182') / Decimal('0.0709'))).quantize(Decimal('1E1'), rounding=ROUND_FLOOR)
     employment_insurance = (salary_dec * Decimal('0.009')).quantize(Decimal('1E1'), rounding=ROUND_FLOOR)
@@ -40,7 +48,8 @@ def process_excel(input_file, output_file):
 
     for index, row in df.iterrows():
         salary = row['급여']  # 급여 값 가져오기
-        insurance = calculate_insurance(salary)  # 보험료 계산
+        birth_date = row['주민등록번호']
+        insurance = calculate_insurance(salary, birth_date)  # 보험료 계산
         total_deductions = sum(insurance.values())  # 총 공제액 계산
         net_salary = salary - total_deductions  # 실수령액 계산
 
@@ -48,6 +57,7 @@ def process_excel(input_file, output_file):
         insurance_data.append({
             "사번": row['사번'],
             "이름": row['이름'],
+            "주민등록번호": row['주민등록번호'],
             "공제대상 가족 수": row['공제대상 가족 수'],
             "8세 이상 20세 이하 자녀 수": row['8세 이상 20세 이하 자녀 수'],
             "급여": salary,
